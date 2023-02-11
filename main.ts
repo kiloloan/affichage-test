@@ -25,11 +25,11 @@ function afficheLog (texte: string) {
 function fond_ecran () {
     afficheLog("affiche ligne")
     basic.showIcon(IconNames.StickFigure)
-    for (let AxeX = 0; AxeX <= 160; AxeX++) {
+    for (let AxeX = 0; AxeX <= 80; AxeX++) {
         LCD1IN8.DrawLine(
-        AxeX,
+        AxeX * 2,
         1,
-        160 - AxeX,
+        160 - AxeX * 2,
         128,
         Math.round(65535 / AxeX),
         DOT_PIXEL.DOT_PIXEL_1,
@@ -84,14 +84,21 @@ input.onButtonPressed(Button.A, function () {
 })
 input.onButtonPressed(Button.AB, function () {
     basic.showIcon(IconNames.SmallSquare)
-    afficheLog("X" + posX + "|Y" + poxY)
-    LCD1IN8.DrawCircle(
+    afficheLog("X" + posX + "|Y" + poxY + "{" + color)
+    LCD1IN8.DrawRectangle(
     posX,
     poxY,
-    32,
+    posX + 25,
+    poxY + 25,
     color,
     DRAW_FILL.DRAW_FULL,
     DOT_PIXEL.DOT_PIXEL_1
+    )
+    LCD1IN8.LCD_DisplayWindows(
+    posX,
+    poxY,
+    posX + 25,
+    poxY + 25
     )
 })
 input.onButtonPressed(Button.B, function () {
@@ -138,7 +145,6 @@ basic.showIcon(IconNames.Yes)
 fond_ecran()
 basic.showIcon(IconNames.No)
 basic.forever(function () {
-    basic.showIcon(IconNames.Square)
     if (color <= 65536) {
         color += 1
     } else {
