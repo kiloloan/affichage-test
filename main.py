@@ -12,10 +12,10 @@ def afficheLog(texte: str):
 def fond_ecran():
     afficheLog("affiche ligne")
     basic.show_icon(IconNames.STICK_FIGURE)
-    for AxeX in range(161):
-        LCD1IN8.draw_line(AxeX,
+    for AxeX in range(81):
+        LCD1IN8.draw_line(AxeX * 2,
             1,
-            160 - AxeX,
+            160 - AxeX * 2,
             128,
             Math.round(65535 / AxeX),
             DOT_PIXEL.DOT_PIXEL_1,
@@ -55,11 +55,24 @@ def on_button_pressed_a():
                 . # . . .
     """)
     if posX < 160:
-        posX += 1
+        posX += 5
     else:
         posX = 1
     AfficheCurseur()
 input.on_button_pressed(Button.A, on_button_pressed_a)
+
+def on_button_pressed_ab():
+    basic.show_icon(IconNames.SMALL_SQUARE)
+    afficheLog("X" + str(posX) + "|Y" + str(poxY) + "{" + str(color))
+    LCD1IN8.draw_rectangle(posX,
+        poxY,
+        posX + 25,
+        poxY + 25,
+        color,
+        DRAW_FILL.DRAW_FULL,
+        DOT_PIXEL.DOT_PIXEL_1)
+    LCD1IN8.LCD_DisplayWindows(posX, poxY, posX + 25, poxY + 25)
+input.on_button_pressed(Button.AB, on_button_pressed_ab)
 
 def on_button_pressed_b():
     global poxY
@@ -71,14 +84,13 @@ def on_button_pressed_b():
                 . . . . .
     """)
     if poxY < 128:
-        poxY += 1
+        poxY += 5
     else:
         poxY = 1
     AfficheCurseur()
 input.on_button_pressed(Button.B, on_button_pressed_b)
 
 def AfficheCurseur():
-    afficheLog("X" + str(posX) + "|Y" + str(poxY))
     LCD1IN8.draw_point(posX, poxY, color, DOT_PIXEL.DOT_PIXEL_2)
     LCD1IN8.LCD_DisplayWindows(posX - 2, poxY - 2, posX + 2, poxY + 2)
 color = 0
@@ -98,7 +110,6 @@ basic.show_icon(IconNames.NO)
 
 def on_forever():
     global color
-    basic.show_icon(IconNames.SQUARE)
     if color <= 65536:
         color += 1
     else:
